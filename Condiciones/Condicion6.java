@@ -20,26 +20,26 @@ public class Condicion6{
             if (opcion == 1) {
                 int digito = numero / 100000;
                 System.out.println("El primer digito es: " + digito);
-            } else if (opcion == 2) {
+                } else if (opcion == 2) {
                 int digito = (numero / 10000) % 10;
                 System.out.println("El segundo digito es: " + digito);
-            } else if (opcion == 3) {
+                } else if (opcion == 3) {
                 int digito = (numero / 1000) % 10;
                 System.out.println("El tercer digito es: " + digito);
-            } else if (opcion == 4) {
+                } else if (opcion == 4) {
                 int digito = (numero / 100) % 10;
                 System.out.println("El cuarto digito es: " + digito);
-            } else if (opcion == 5) {
+                } else if (opcion == 5) {
                 int digito = (numero / 10) % 10;
                 System.out.println("El quinto digito es: " + digito);
-            } else if (opcion == 6) {
+                } else if (opcion == 6) {
                 int digito = numero % 10;
                 System.out.println("El sexto digito es: " + digito);
-            } else {
+                } else {
                 System.out.println("opcion invalida");
-            }
-        } else {
-            System.out.println("el numero ingresado no tiene 6 digitos");
+                }
+             } else {
+                System.out.println("el numero ingresado no tiene 6 digitos");
         }
 
     }
