@@ -11,7 +11,7 @@ public class Ejercicio10 {
 
         // Generar e imprimir el cuadrado latino en el orden solicitado
         for (int i = 0; i < numero; i++) {
-            for (int j = 0; j < numero; j--) {
+            for (int j = 0; j < numero; j++) {
                 System.out.print(((j + i) % numero) + 1);
             }
             System.out.println();
