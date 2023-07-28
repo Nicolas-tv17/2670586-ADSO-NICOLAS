@@ -10,13 +10,15 @@ public class Ejercicio4 {
         int numero = entrada.nextInt();
 
         int arreglo[] = new int[numero];
+        int[] arreglodesendente = new int[numero];
+        int index = 0;
+        Arrays.sort(arreglo);
 
         for (int i = 0; i < numero; i++) {
             System.out.print(" - Ingrese dato en pos [" + i + "]: ");
             arreglo[i] = entrada.nextInt();
         }
 
-        // Imprimir el arreglo original
         System.out.print("Arreglo original: ");
         for (int i = 0; i < arreglo.length; i++) {
             if (i > 0) {
@@ -26,23 +28,18 @@ public class Ejercicio4 {
         }
         System.out.println();
 
-        // Ordenar el arreglo en forma descendente
-        Arrays.sort(arreglo);
-        int[] arregloDescendente = new int[numero];
-        int index = 0;
 
         for (int i = numero - 1; i >= 0; i--) {
-            arregloDescendente[index] = arreglo[i];
+            arreglodesendente[index] = arreglo[i];
             index++;
         }
 
-        // Imprimir el arreglo en forma descendente
-        System.out.print("Arreglo ordenado descendente: ");
-        for (int i = 0; i < arregloDescendente.length; i++) {
+        System.out.print("Forma descendente: ");
+        for (int i = 0; i < arreglodesendente.length; i++) {
             if (i > 0) {
                 System.out.print(" - ");
             }
-            System.out.print(arregloDescendente[i]);
+            System.out.print(arreglodesendente[i]);
         }
     }
 }
