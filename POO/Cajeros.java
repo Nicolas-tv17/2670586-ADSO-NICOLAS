@@ -84,9 +84,12 @@ public class Cajeros{
         }
     }
 
-    public void registrarTransaccion(String tipo, String numeroTargeta, int monto, String estado){
+    private void registrarTransaccion(String tipo, String numeroTargeta, int total, String estado) {
+    }
+
+    public void registrarTransaccion(String tipo, String numeroTargeta, String string, String estado){
         Date fecha = new Date();
-        String texto = fecha.toString()+ " - "+ tipo + " - " +numeroTargeta+ " - " +monto+ " - "+estado;
+        String texto = fecha.toString()+ " - "+ tipo + " - " +numeroTargeta+ " - " +string+ " - "+estado;
 
         //buscar un indice donde este vacio
 
@@ -108,4 +111,69 @@ public class Cajeros{
         }
 
     }
+
+    public void verHistorialCajero(String user, String password){
+        if( user.equals(usuarioAdmin) && password.equals(claveAdmin)){
+
+            registrarTransaccion("Historial", "0000 0000 0000 0000", "0", "Ok");
+
+            System.out.println("----------------------------------");
+            System.out.println("         Historial Cajero         ");
+            System.out.println("----------------------------------");
+            for(int i = 0; i < listaTransaciones.length;i++){
+                if(listaTransaciones[i] != null){
+                    System.out.println("--> "+listaTransaciones[i]);
+                }
+            }
+        }else{
+            System.out.println("___ ACCESO DENEGADO ___");
+            registrarTransaccion("Historial", "0000 0000 0000 0000", "0", "Error");
+        }
+    }
+
+    public void consignarDineroTarjeta(Tarjeta01 tarjeta, String clave, int cant_10, int cant_20, int cant_50, int cant_100){
+        //validar que el dinero ingresado no se supere el limite del cajero
+        
+        //aumentar saldo de la tarjeta
+        //aumentar saldo del cajero
+        //registrar la transaccion
+        
+        int monto = (10000*cant_10) + (20000*cant_20) + (50000*cant_50) + (100000*cant_100);
+        
+        if(tarjeta.validarClave(clave)){
+            //validar clave
+            if( tarjeta.validarEstadoActiva()){
+                // el monto ingresado sea mayor a cero
+                if(monto < 0){
+                    // validar que el dinero ingresado no supere el limite del cajero
+                    if(dineroDisponible + monto <= capacidadTotal){
+                        tarjeta.aumentarSaldo(monto, clave);
+
+                        dineroDisponible += monto;
+                        this.cant_10 += cant_10;
+                        this.cant_20 += cant_20;
+                        this.cant_50 += cant_50;
+                        this.cant_100 += cant_100;
+
+                        System.out.println("___ REALIZADO-CONSIGNAR DINERO___");
+                        registrarTransaccion("CONSIGNACION", tarjeta.getNumero(), monto, "OK");
+
+                    }else{
+                        System.out.println("___ ERROR MONTO SUPERIOR-CONSIGNAR DINERO___");
+                        registrarTransaccion("Historial", tarjeta.getNumero(), monto, "Error Capacidad");
+                    }
+                }else{
+                    System.out.println("___ ERROR MONTO INFERIOR-CONSIGNAR DINERO___");
+                    registrarTransaccion("Historial", tarjeta.getNumero(), monto, "Error monto");
+                }
+            }else{
+                System.out.println("___ ERROR ESTADO-CONSIGNAR DINERO___");
+                registrarTransaccion("Historial", tarjeta.getNumero(), monto, "Error Status");
+            }
+        }else{
+            System.out.println("___ ERROR PASSWORD-CONSIGNAR DINERO___");
+            registrarTransaccion("Historial", tarjeta.getNumero(), monto, "Error password");
+        }
+    }
+
 }
