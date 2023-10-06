@@ -1,7 +1,7 @@
 public class Ejercicio13 {
     public static void main(String[] args) {
     
-        int arreglo [] = new int [10];
+        int arreglo [] = new int [5];
         llenarArreglo(arreglo);
 
         System.out.println("");
