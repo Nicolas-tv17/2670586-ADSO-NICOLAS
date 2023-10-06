@@ -2,6 +2,7 @@ public class Ejercicio14 {
     public static void main(String[] args) {
         
         int arreglo [] = {1,2,3,4,5,6,7};
+        
         if(ordenadoArreglo(arreglo)){
             System.out.println("");
             System.out.println("El arreglo esta ordenado.");

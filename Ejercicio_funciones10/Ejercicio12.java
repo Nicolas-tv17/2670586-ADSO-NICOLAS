@@ -1,5 +1,11 @@
 public class Ejercicio12 {
     public static void main(String[] args) {
+
+        int arreglo [] = {1};
+
+        System.out.println("");
+        System.out.println(verificarArreglo(arreglo));
+        System.out.println("");
         
     }
 
