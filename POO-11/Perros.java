@@ -77,13 +77,52 @@ public class Perros {
     }
 
     public void comer(int gramos){
-
+        System.out.println("Ha comido "+gramos+" gramos");
+        
         // Peso
         peso = peso + ((double) gramos/1000);
-
+        
         //Energia
         energia = energia + (gramos/100);
+        
+    }
+    
+    public void dormir(int horas){
+        System.out.println("Ha dormido "+horas+" horas");
+        
+        energia += 5 * horas ;
+        
+    }
+    
+    public void jugar(int minutos){
+        System.out.println("Ha jugado "+minutos+" minutos");
+        //peso
+        peso = peso - ((double) minutos/30);
+
+        //energia
+        if(minutos<=60){
+            energia -= minutos*0.5;
+            energia = energia - minutos;
+        }else{
+            energia=0;
+        }
 
     }
+
+    // public void hacerPopis(int cuanto){
+
+    // }
+
+    // public void ladrar(int intensidad){
+
+    // }
+
+    // public void morder(int fuerza){
+
+    // }
+
+    // public void caminar(int distancia){
+
+    // }
 
 }
