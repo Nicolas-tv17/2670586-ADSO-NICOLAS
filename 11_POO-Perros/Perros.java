@@ -96,33 +96,57 @@ public class Perros {
     
     public void jugar(int minutos){
         System.out.println("Ha jugado "+minutos+" minutos");
+        
         //peso
         peso = peso - ((double) minutos/30);
-
+        
         //energia
         if(minutos<=60){
-            energia -= minutos*0.5;
+            energia -=  minutos * 0.5;
             energia = energia - minutos;
         }else{
-            energia=0;
+            energia = 0;
         }
+        
+    }
+    
+    public void hacerPopis(int veces){
+        System.out.println("Ha hecho popis "+veces+" veces");
+        
+        peso = peso - (0.1 * veces);
+        
+    }
+    
+    public void ladrar(int cantidad){
+        System.out.println("Ha ladrado "+cantidad+" veces");
+        
+        int ladridos = 0;
+        for(int i =3; i <= cantidad; i+=3){
+            if(i % 3 == 0){
+                ladridos++;
+            }
+        }
+        energia -= ladridos;
+        
+    }
+    
+    public void morder(int veces){
+        System.out.println("Ha mordido "+veces+" veces");
+        
+        if (veces % 2 == 0){
+            energia = energia + 1;
+        }else {
+            energia = energia + 2;
+        }
+        
+    }
+    
+    public void caminar(int minutos){
+        System.out.println("Ha caminado "+minutos+" minutos");
+
+        peso = peso - ((double)minutos/100);
+        energia = energia - minutos/15;
 
     }
-
-    // public void hacerPopis(int cuanto){
-
-    // }
-
-    // public void ladrar(int intensidad){
-
-    // }
-
-    // public void morder(int fuerza){
-
-    // }
-
-    // public void caminar(int distancia){
-
-    // }
 
 }
