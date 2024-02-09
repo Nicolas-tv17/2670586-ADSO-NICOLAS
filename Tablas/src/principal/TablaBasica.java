@@ -1,7 +1,10 @@
 package principal;
 
 import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 
 public class TablaBasica extends javax.swing.JFrame {
@@ -35,6 +38,21 @@ public class TablaBasica extends javax.swing.JFrame {
         setVisible(true);
         
         modelo = (DefaultTableModel) tabladatos.getModel();
+        
+        tabladatos.getTableHeader().setReorderingAllowed(false);
+
+        
+        for (int i = 0; i < tabladatos.getColumnCount(); i++) {
+            tabladatos.getColumnModel().getColumn(i).setResizable(false);
+        }
+        
+        JTableHeader tableHeader = tabladatos.getTableHeader();
+        tableHeader.setBackground(Color.BLUE);
+        tableHeader.setForeground(Color.BLACK);
+
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) tableHeader.getDefaultRenderer();
+        renderer.setHorizontalAlignment(JLabel.CENTER);
+        
     }
     
     public void imprimirPersonas(){
@@ -180,6 +198,8 @@ public class TablaBasica extends javax.swing.JFrame {
 
         contenedorTabla.setBackground(new java.awt.Color(255, 255, 255));
 
+        tabladatos.setBackground(new java.awt.Color(192,192,192));
+        tabladatos.getTableHeader().setReorderingAllowed(false);
         tabladatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -202,6 +222,7 @@ public class TablaBasica extends javax.swing.JFrame {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
+
         });
         jScrollPane1.setViewportView(tabladatos);
 
