@@ -14,5 +14,7 @@ public class Ejercicio7{
         System.out.print("--> Ingrese un Numero: ");
         int numerotres = entrada.nextInt();
 
+        
+
     }
 }

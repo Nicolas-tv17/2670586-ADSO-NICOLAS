@@ -38,6 +38,13 @@ public class Materia {
         return nombre + " -> Créditos: " + creditos + " -> Notas: " + nota;
     }
 
+    public double promedioPonderado(){
+        double acumulador = creditos*nota;
+        double sumas =+ creditos;
+        double total = acumulador / sumas;
+        return total;
+    } 
+
     //Promedio Ponderado = n1*c1+ n2*c2 + n3*c3 / c1+c2+c3;
 
     

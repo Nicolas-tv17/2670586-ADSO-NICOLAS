@@ -175,7 +175,7 @@ public class Promedio extends JFrame{
         
         for (int i=0; i < this.listaJLabels.length; i++) {
             etq_temporal = new JLabel(" ");
-            etq_temporal.setHorizontalAlignment( JLabel.RIGHT );
+            etq_temporal.setHorizontalAlignment( JLabel.CENTER );
             etq_temporal.setFont( new Font("Arial", Font.PLAIN, 18) );
             etq_temporal.setOpaque(true);
             etq_temporal.setBackground( Color.white );
@@ -187,7 +187,7 @@ public class Promedio extends JFrame{
             constItems.gridwidth = 1;
             constItems.weighty = 1;
             constItems.weightx = 1;
-            constItems.fill = GridBagConstraints.HORIZONTAL;
+            constItems.fill = GridBagConstraints.BOTH;
             constItems.anchor = GridBagConstraints.NORTH;
             constItems.insets = new Insets(0, 0, 0, 0);
             contenedorItems.add(this.listaJLabels[i], constItems);
@@ -224,6 +224,13 @@ public class Promedio extends JFrame{
         };
         btn_registrar.addActionListener(evento_click_registrar);
 
+        ActionListener evento_click_limpiar = new ActionListener() {
+            public void actionPerformed(ActionEvent event){
+                limpiarTabla();
+            }
+        };
+        btn_limpiar.addActionListener(evento_click_limpiar);
+
 
         add(contPrincipal);
         setResizable(false);
@@ -245,6 +252,21 @@ public class Promedio extends JFrame{
             listaJLabels[indice].setText(nuevaMateria.imprimir());
 
             indice++;
+
+            System.out.println(nuevaMateria.promedioPonderado());
         }
+
+        limpiarInputs();
+
+    }
+
+    public void limpiarInputs(){
+        campo_materia.setText("");
+        campo_creditos.setText("");
+        campo_notas.setText("");
+    }
+
+    public void limpiarTabla(){
+        limpiarInputs();
     }
 }

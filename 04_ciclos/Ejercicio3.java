@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Ejercicio08 {
+public class Ejercicio3 {
     public static void main(String[] args){
 
         Scanner entrada = new Scanner(System.in);
@@ -19,6 +19,6 @@ public class Ejercicio08 {
             }
             System.out.println();
             contador += 2;
-            }
+        }
     }
 }

@@ -10,9 +10,6 @@ public class Ejercicio8{
 
 
         if(numero < 100000){
-
-            
-        
             String numeroStr = String.valueOf(numero);
             System.out.println("Los dígitos separados son:");
         
