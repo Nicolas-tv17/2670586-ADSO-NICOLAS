@@ -1,18 +1,19 @@
 package principal;
 
-import utils.ButtonEditor;
-import utils.ButtonRenderer;
+import utils.Persona;
 import utils.Persona;
 import java.awt.Color;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import principal.Alerta;
+import principal.Alerta;
+import principal.AvisoCorreo;
+import principal.AvisoCorreo;
+import principal.AvisoDocumento;
+import principal.AvisoDocumento;
+
 
 public class TablaBasica extends javax.swing.JFrame {
     
@@ -46,20 +47,12 @@ public class TablaBasica extends javax.swing.JFrame {
         
         modelo = (DefaultTableModel) tabladatos.getModel();
         
-        tabladatos.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox()));
-        tabladatos.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
-        
-        tabladatos.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox()));
-        tabladatos.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
-        
         //Tamaño de las columnas
         tabladatos.getColumnModel().getColumn(0).setPreferredWidth(90);
         tabladatos.getColumnModel().getColumn(1).setPreferredWidth(150);
         tabladatos.getColumnModel().getColumn(2).setPreferredWidth(150);
         tabladatos.getColumnModel().getColumn(3).setPreferredWidth(100);
         tabladatos.getColumnModel().getColumn(4).setPreferredWidth(150);
-        tabladatos.getColumnModel().getColumn(5).setPreferredWidth(30);
-        tabladatos.getColumnModel().getColumn(6).setPreferredWidth(30);
         
         
         tabladatos.getTableHeader().setReorderingAllowed(false);
@@ -87,29 +80,7 @@ public class TablaBasica extends javax.swing.JFrame {
             String telefono = listapersonas[i].getTelefono();
             String correo = listapersonas[i].getCorreo();
             
-            JButton btnEditar = new JButton();
-            btnEditar.setBackground(Color.white);
-            
-            Image icono_editar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/icono_editar.png"));
-            icono_editar = icono_editar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-            btnEditar.setIcon( new ImageIcon(icono_editar));
-            
-            JButton btnEliminar = new JButton();
-            btnEliminar.setBackground(Color.white);
-            
-            Image icono_eliminar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/icono_eliminar.png"));
-            icono_eliminar = icono_eliminar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-            btnEliminar.setIcon( new ImageIcon(icono_eliminar));
-            
-            Object dato[] = new Object[]{documento,nombres,apellidos,telefono,correo, btnEditar, btnEliminar}; 
-            modelo.addRow(dato);
-            
-            btnEditar.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Nombre:");
-                }
-            });
+            Object dato[] = new Object[]{documento,nombres,apellidos,telefono,correo}; modelo.addRow(dato);
 
         }   
     }
@@ -144,7 +115,7 @@ public class TablaBasica extends javax.swing.JFrame {
         etq_titulo.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
         etq_titulo.setForeground(new java.awt.Color(0, 0, 0));
         etq_titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        etq_titulo.setText("Tabla con Botones");
+        etq_titulo.setText("Tabla Basica");
 
         javax.swing.GroupLayout contenedorTituloLayout = new javax.swing.GroupLayout(contenedorTitulo);
         contenedorTitulo.setLayout(contenedorTituloLayout);
@@ -247,7 +218,7 @@ public class TablaBasica extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Documento", "Nombres", "Apellidos", "Telefono", "Correo Elect", " ", " "
+                "Documento", "Nombres", "Apellidos", "Telefono", "Correo Elect"
             }
         ) {
             Class[] types = new Class [] {

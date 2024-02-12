@@ -1,24 +1,22 @@
 package principal;
 
-import utils.Persona;
+import utils.ButtonEditor;
+import utils.ButtonRenderer;
 import utils.Persona;
 import java.awt.Color;
-import javax.swing.JLabel;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import principal.Alerta;
-import principal.Alerta;
-import principal.AvisoCorreo;
-import principal.AvisoCorreo;
-import principal.AvisoDocumento;
-import principal.AvisoDocumento;
-
 
 public class TablaBotones extends javax.swing.JFrame {
     
-    DefaultTableModel modelo;
-    
+    DefaultTableModel modelo;  
     Persona listapersonas[];
 
     public TablaBotones() {
@@ -32,41 +30,45 @@ public class TablaBotones extends javax.swing.JFrame {
         
         initComponents();
         initAlternComponents();
-        imprimirPersonas();
-        DefaultTableModel modelo;
-        tabladatos.getTableHeader().setBackground(new Color(255,255,255));
-        
+        imprimirPersonas(); 
     }
     
     
     public void initAlternComponents(){
-        setTitle("Formulario");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setTitle("Tabla");
+        setLocationRelativeTo(null);        
         setVisible(true);
+        setIconImage( getToolkit().createImage( ClassLoader.getSystemResource("imagenes/icono_registro.png")));
         
         modelo = (DefaultTableModel) tabladatos.getModel();
         
-        //Tamaño de las columnas
+        tabladatos.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox()));
+        tabladatos.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
+        
+        tabladatos.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox()));
+        tabladatos.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
+        
+        //Tamaño de columnas
         tabladatos.getColumnModel().getColumn(0).setPreferredWidth(90);
         tabladatos.getColumnModel().getColumn(1).setPreferredWidth(150);
         tabladatos.getColumnModel().getColumn(2).setPreferredWidth(150);
         tabladatos.getColumnModel().getColumn(3).setPreferredWidth(100);
         tabladatos.getColumnModel().getColumn(4).setPreferredWidth(150);
+        tabladatos.getColumnModel().getColumn(5).setPreferredWidth(30);
+        tabladatos.getColumnModel().getColumn(6).setPreferredWidth(30);
         
-        
+        // Ajuste del Orden y Ancho de Columnas
         tabladatos.getTableHeader().setReorderingAllowed(false);
         tabladatos.getTableHeader().setResizingAllowed(false);
         
+        // Centrar contenido de columnas
         DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
-        centerRender.setHorizontalAlignment(JLabel.CENTER);
-        
+        centerRender.setHorizontalAlignment(SwingConstants.CENTER);
         tabladatos.getColumnModel().getColumn(0).setCellRenderer(centerRender);
         tabladatos.getColumnModel().getColumn(3).setCellRenderer(centerRender);
-        
-        tabladatos.setRowHeight(30);
-        
-        
+              
+        // Alto de las filas
+        tabladatos.setRowHeight(30);  
     }
     
     public void imprimirPersonas(){
@@ -80,7 +82,40 @@ public class TablaBotones extends javax.swing.JFrame {
             String telefono = listapersonas[i].getTelefono();
             String correo = listapersonas[i].getCorreo();
             
-            Object dato[] = new Object[]{documento,nombres,apellidos,telefono,correo}; modelo.addRow(dato);
+            JButton btnEditar = new JButton();
+            btnEditar.setBackground(Color.white);
+            Image icono_editar = getToolkit().createImage( ClassLoader.getSystemResource("imagenes/icono_editar.png"));
+            icono_editar = icono_editar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            btnEditar.setIcon( new ImageIcon(icono_editar));
+            
+            JButton btnEliminar = new JButton();
+            btnEliminar.setBackground(Color.white);
+            Image icono_eliminar = getToolkit().createImage( ClassLoader.getSystemResource("imagenes/icono_eliminar.png"));
+            icono_eliminar = icono_eliminar.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            btnEliminar.setIcon( new ImageIcon(icono_eliminar));
+            
+            Object dato[] = new Object[]{documento,nombres,apellidos,telefono,correo, btnEditar, btnEliminar}; 
+            modelo.addRow(dato);
+            
+            Persona temporal = listapersonas[i];
+            TablaBotones ventanaActual = this;
+            
+            btnEditar.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("Nombres: " + nombres);
+                    FormularioEdicion ventana = new FormularioEdicion(temporal,ventanaActual);
+                }
+            });
+            
+            final int posicion = i;
+            
+            btnEliminar.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    EliminarPersona ventanaEliminar = new EliminarPersona(ventanaActual, listapersonas, posicion);
+                }
+            });
 
         }   
     }
@@ -115,7 +150,7 @@ public class TablaBotones extends javax.swing.JFrame {
         etq_titulo.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
         etq_titulo.setForeground(new java.awt.Color(0, 0, 0));
         etq_titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        etq_titulo.setText("Tabla Basica");
+        etq_titulo.setText("Tabla con Botones");
 
         javax.swing.GroupLayout contenedorTituloLayout = new javax.swing.GroupLayout(contenedorTitulo);
         contenedorTitulo.setLayout(contenedorTituloLayout);
@@ -218,7 +253,7 @@ public class TablaBotones extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Documento", "Nombres", "Apellidos", "Telefono", "Correo Elect"
+                "Documento", "Nombres", "Apellidos", "Telefono", "Correo Elect", " ", " "
             }
         ) {
             Class[] types = new Class [] {
