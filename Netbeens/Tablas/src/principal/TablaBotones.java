@@ -1,7 +1,7 @@
 package principal;
 
-import Utils.Persona;
-import Utils.Persona;
+import utils.Persona;
+import utils.Persona;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;

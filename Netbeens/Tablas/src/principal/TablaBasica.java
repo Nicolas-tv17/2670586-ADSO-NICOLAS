@@ -1,7 +1,8 @@
 package principal;
 
-import Utils.*;
-import Utils.Persona;
+import utils.ButtonEditor;
+import utils.ButtonRenderer;
+import utils.Persona;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
