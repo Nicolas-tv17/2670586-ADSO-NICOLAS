@@ -1,9 +1,45 @@
 package principal;
 
+import javax.swing.table.DefaultTableModel;
+import utils.BaseDatos;
+import utils.Persona;
+
 public class PanelListar extends javax.swing.JPanel {
 
-    public PanelListar() {
+    DefaultTableModel modelo;
+    BaseDatos basedatos;
+    
+    public PanelListar( BaseDatos basedatos) {
+        this.basedatos = basedatos;
+        
         initComponents();
+        initAltherComponents();
+        imprimirPersonas();
+    }
+    
+    public void initAltherComponents(){
+        modelo = (DefaultTableModel) tablaPersonas.getModel();
+        
+        tablaPersonas.getColumnModel().getColumn(0).setPreferredWidth(20);
+        tablaPersonas.getColumnModel().getColumn(1).setPreferredWidth(50);
+        tablaPersonas.getColumnModel().getColumn(2).setPreferredWidth(180);
+        tablaPersonas.getColumnModel().getColumn(3).setPreferredWidth(50);
+        tablaPersonas.getColumnModel().getColumn(4).setPreferredWidth(100);
+    }
+    
+    public void imprimirPersonas(){
+        
+        Persona lista [] = basedatos.extraerPersonas();
+        modelo.setRowCount(0);
+        for (int i=0; i<lista.length && lista[i]!=null; i++) {
+            String documento = lista[i].getDocumento();
+            String nombres = lista[i].getNombres()+" "+lista[i].getApellidos();
+            String direccion = lista[i].getDireccion();
+            String correo = lista[i].getCorreo();
+            
+            Object datos[] = new Object[]{ (i+1), documento, nombres, direccion, correo};
+            modelo.addRow(datos);
+        }
     }
 
 
@@ -14,37 +50,37 @@ public class PanelListar extends javax.swing.JPanel {
         contenedorPrincipal = new javax.swing.JPanel();
         etqTitulo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaDatos = new javax.swing.JTable();
+        tablaPersonas = new javax.swing.JTable();
 
         contenedorPrincipal.setBackground(new java.awt.Color(0, 204, 204));
 
-        etqTitulo.setFont(new java.awt.Font("Impact", 1, 26)); // NOI18N
+        etqTitulo.setFont(new java.awt.Font("Impact", 1, 29)); // NOI18N
         etqTitulo.setForeground(new java.awt.Color(0, 0, 0));
         etqTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etqTitulo.setText("LISTAR PERSONAS");
 
-        tablaDatos.setBackground(new java.awt.Color(255, 255, 255));
-        tablaDatos.setForeground(new java.awt.Color(0, 0, 0));
-        tablaDatos.setModel(new javax.swing.table.DefaultTableModel(
+        tablaPersonas.setBackground(new java.awt.Color(255, 255, 255));
+        tablaPersonas.setForeground(new java.awt.Color(0, 0, 0));
+        tablaPersonas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "N°", "Cedula", "Nombres", "Apellidos", "Telefono", "Direccion", "Email"
+                "N°", "Cedula", "Nombres", "Direccion", "Email"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tablaDatos);
+        jScrollPane1.setViewportView(tablaPersonas);
 
         javax.swing.GroupLayout contenedorPrincipalLayout = new javax.swing.GroupLayout(contenedorPrincipal);
         contenedorPrincipal.setLayout(contenedorPrincipalLayout);
@@ -87,6 +123,6 @@ public class PanelListar extends javax.swing.JPanel {
     private javax.swing.JPanel contenedorPrincipal;
     private javax.swing.JLabel etqTitulo;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablaDatos;
+    private javax.swing.JTable tablaPersonas;
     // End of variables declaration//GEN-END:variables
 }

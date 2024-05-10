@@ -1,0 +1,120 @@
+body{
+    background-color: black;
+    color: white;
+}
+
+.contenedor{
+    width: 56%;
+    height: 700px;
+    border: 1px red solid;
+    flex-direction: column;
+    margin-top: 80px;
+    margin-left: 20%;
+    padding-inline: 20px;
+}
+
+.botones{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.botonesJS{
+    width: 100%;
+    height: 26px;
+    background-color: rgb(0, 195, 255);
+    border: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.botonesJS:hover{
+    background-color: rgb(0, 81, 255);
+    color: white;
+}
+
+.contenedorSecundario{
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    height:450px;
+}
+
+.otrosBotones{
+    display: flex;
+    padding-inline: 30%;
+    justify-content: space-between;
+}
+
+.paginadores{
+    font-size: 15px;
+    width: 150px;
+    height: 30px;
+    text-align: center;
+    background-color: rgb(13, 156, 13);
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    border: none;
+    margin: 10px;
+}
+
+.paginadores:hover{
+    transform: scale(1.1);
+    background-color: gray;
+}
+
+.botoniniciar{
+    width: 100%;
+    text-align: center;
+}
+
+.iniciar{
+    background-color: red;
+    width: 200px;
+    height: 50px;
+    color: white;
+    border: none;
+    font-family: 'Glegoo', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.iniciar:hover{
+    transform: scale(1.4);
+    background-color: rgb(255, 251, 0);
+    color: black;
+}
+
+#mensajeNoInternet {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #0099ff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+    margin: auto;
+}
+
+.noconection{
+    color: black;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

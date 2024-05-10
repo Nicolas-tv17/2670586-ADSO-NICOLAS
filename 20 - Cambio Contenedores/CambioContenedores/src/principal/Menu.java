@@ -180,7 +180,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
         //Crear contenedor nuevo
-        PanelListar nuevo = new PanelListar();
+        PanelListar nuevo = new PanelListar(basedatos);
         
         nuevo.setPreferredSize( contentPrincipal.getPreferredSize() );
         nuevo.setSize(contentPrincipal.getSize());
@@ -213,7 +213,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        PanelEditar editar = new PanelEditar();
+        PanelEditar editar = new PanelEditar(basedatos);
         
         editar.setPreferredSize( contentPrincipal.getPreferredSize());
         editar.setSize( contentPrincipal.getSize());

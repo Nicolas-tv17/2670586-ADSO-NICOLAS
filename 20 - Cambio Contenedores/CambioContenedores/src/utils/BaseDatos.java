@@ -47,19 +47,25 @@ public class BaseDatos {
 	}   
     }
     
-    public Persona extraerPersonas(String cedula){
+    public Persona [] extraerPersonas(){
         try {
-            Persona arreglo = null;
-            String consulta = "SELECT * FROM personas WHERE cedula = '"+cedula+"'";
+            Persona arreglo [] = new Persona[100];
+            String consulta = "SELECT * FROM personas";
             ResultSet registros = manipularDB.executeQuery(consulta);
             registros.next();
             if (registros.getRow()==1) {
-                String documento = registros.getString("cedula");
-                String nombres = registros.getString("nombres");
-                String apellidos = registros.getString("apellidos");
-                String telefono = registros.getString("telefono");
-                String direccion = registros.getString("direccion");
-                String correo = registros.getString("email");
+                int i = 0;
+                do{
+                    String documento = registros.getString("cedula");
+                    String nombres = registros.getString("nombres");
+                    String apellidos = registros.getString("apellidos");
+                    String direccion = registros.getString("direccion");
+                    String telefono = registros.getString("telefono");
+                    String correo = registros.getString("email");
+                    
+                    arreglo[i] = new Persona(documento, nombres, apellidos, direccion, telefono, correo);
+                    i++;
+                }while(registros.next());
                 
                 return arreglo;
             }else{
@@ -71,6 +77,34 @@ public class BaseDatos {
             return null;
         }
     }
+    
+    
+    public Persona extraerPersona(String cedula){
+        try {
+            Persona arreglo = new Persona(cedula, cedula, cedula, cedula, cedula, cedula);
+            String consulta = "SELECT * FROM personas WHERE cedula = '"+cedula+"'";
+            ResultSet registros = manipularDB.executeQuery(consulta);
+            registros.next();
+            
+                String documento = registros.getString("cedula");
+                String nombres = registros.getString("nombres");
+                String apellidos = registros.getString("apellidos");
+                String direccion = registros.getString("direccion");
+                String telefono = registros.getString("telefono");
+                String correo = registros.getString("email");
+                    
+                    arreglo = new Persona(documento, nombres, apellidos, direccion, telefono, correo);
+                    
+             return arreglo;
+             
+        } catch (SQLException ex) {
+            System.out.println("Error al ejecutar el SELECT: ");
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+    
+    
     
     public boolean insertarPersona(String cedula, String nombres, String apellidos, String direccion, String telefono, String email){
         boolean respuesta = false;
@@ -128,5 +162,7 @@ public class BaseDatos {
         }
         return respuesta;
     }
+
+
     
 }

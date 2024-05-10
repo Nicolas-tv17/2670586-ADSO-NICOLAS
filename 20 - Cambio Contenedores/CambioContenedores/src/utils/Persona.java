@@ -5,13 +5,15 @@ public class Persona {
     String documento;
     String nombres;
     String apellidos;
+    String direccion;
     String telefono;
     String correo;
 
-    public Persona(String documento, String nombres, String apellidos, String telefono, String correo) {
+    public Persona(String documento, String nombres, String apellidos, String direccion, String telefono, String correo) {
         this.documento = documento;
         this.nombres = nombres;
         this.apellidos = apellidos;
+        this.direccion = direccion;
         this.telefono = telefono;
         this.correo = correo;
     }
@@ -38,6 +40,14 @@ public class Persona {
 
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
+    }
+    
+    public String getDireccion(){
+        return direccion;
+    }
+    
+    public void setDireccion(String direccion){
+        this.direccion = direccion;
     }
 
     public String getTelefono() {

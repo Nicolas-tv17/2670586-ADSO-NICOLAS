@@ -1,9 +1,27 @@
 package principal;
 
+import utils.BaseDatos;
+import utils.Persona;
+
 public class PanelEditar extends javax.swing.JPanel {
 
-    public PanelEditar() {
+    BaseDatos basebatos;
+    public PanelEditar(BaseDatos baseDatos) {
+        this.basebatos = baseDatos;
         initComponents();
+        initAltherComponents();
+    }
+    
+    public void initAltherComponents(){
+        
+        btnGuardar.setEnabled(false);
+        
+        campoNombres.setEnabled(false);
+        campoApellidos.setEnabled(false);
+        campoDireccion.setEnabled(false);
+        campoTelefono.setEnabled(false);
+        campoEmail.setEnabled(false);
+
     }
 
  
@@ -27,11 +45,10 @@ public class PanelEditar extends javax.swing.JPanel {
         campoEmail = new javax.swing.JTextField();
         etqEmail = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
-        btnGuardar1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(0, 204, 204));
 
-        etqTitulo.setFont(new java.awt.Font("Impact", 1, 26)); // NOI18N
+        etqTitulo.setFont(new java.awt.Font("Impact", 1, 29)); // NOI18N
         etqTitulo.setForeground(new java.awt.Color(0, 0, 0));
         etqTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etqTitulo.setText("EDITAR PERSONAS");
@@ -45,6 +62,11 @@ public class PanelEditar extends javax.swing.JPanel {
         jButton1.setBackground(new java.awt.Color(51, 51, 255));
         jButton1.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         jButton1.setText("BUSCAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         campoNombres.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -80,11 +102,11 @@ public class PanelEditar extends javax.swing.JPanel {
         btnGuardar.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(0, 0, 0));
         btnGuardar.setText("GUARDAR");
-
-        btnGuardar1.setBackground(new java.awt.Color(204, 0, 51));
-        btnGuardar1.setFont(new java.awt.Font("Georgia", 1, 13)); // NOI18N
-        btnGuardar1.setForeground(new java.awt.Color(0, 0, 0));
-        btnGuardar1.setText("CANCELAR");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -123,12 +145,11 @@ public class PanelEditar extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(etqEmail)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(btnGuardar1)
-                        .addGap(50, 50, 50)
-                        .addComponent(btnGuardar)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(137, 137, 137)))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -164,17 +185,71 @@ public class PanelEditar extends javax.swing.JPanel {
                     .addComponent(etqEmail)
                     .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardar1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(69, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String cedula = campoCedula.getText();
+        
+        if (!cedula.isEmpty()) {
+            Persona persona = basebatos.extraerPersona(cedula);
+
+            if (persona != null) {
+                
+                btnGuardar.setEnabled(true);
+                campoNombres.setEnabled(true);
+                campoApellidos.setEnabled(true);
+                campoDireccion.setEnabled(true);
+                campoTelefono.setEnabled(true);
+                campoEmail.setEnabled(true);
+                
+                // Mostrar información en los campos correspondientes
+                campoNombres.setText(persona.getNombres());
+                campoApellidos.setText(persona.getApellidos());
+                campoTelefono.setText(persona.getTelefono());
+                campoDireccion.setText(persona.getDireccion());
+                campoEmail.setText(persona.getCorreo());
+            } else {
+                // Limpiar campos si la persona no se encuentra
+                campoCedula.setText("");
+                Alerta ventana = new Alerta("No existe la cedula");
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        guardarCambios();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    public void guardarCambios(){
+        String cedula = campoCedula.getText();
+        String nombres = campoNombres.getText();
+        String apellidos = campoApellidos.getText();
+        String telefono = campoTelefono.getText();
+        String direccion = campoDireccion.getText();
+        String email = campoEmail.getText();
+        
+        boolean estado = basebatos.actualizarPersona(cedula, nombres, apellidos, direccion, telefono, email);
+            
+        if(estado){
+
+            campoCedula.setText("");
+            campoNombres.setText("");
+            campoApellidos.setText("");
+            campoTelefono.setText("");
+            campoDireccion.setText("");
+            campoEmail.setText("");
+
+        }else{
+            Alerta ventana = new Alerta("Error al agregar.");
+        }
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnGuardar1;
     private javax.swing.JTextField campoApellidos;
     private javax.swing.JTextField campoCedula;
     private javax.swing.JTextField campoDireccion;
