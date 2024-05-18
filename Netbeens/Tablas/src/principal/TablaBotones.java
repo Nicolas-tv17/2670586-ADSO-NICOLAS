@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class TablaBotones extends javax.swing.JFrame {
     
-    DefaultTableModel modelo;  
+    DefaultTableModel modelo;
     Persona listapersonas[];
 
     public TablaBotones() {
