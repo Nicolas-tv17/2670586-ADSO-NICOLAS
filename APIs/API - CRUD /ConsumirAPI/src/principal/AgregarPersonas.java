@@ -1,5 +1,7 @@
 package principal;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.util.HashMap;
 import java.util.Map;
 import utils.ConsumoAPI;
@@ -37,28 +39,35 @@ public class AgregarPersonas extends javax.swing.JFrame {
         btn_guardar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel1.setBackground(new java.awt.Color(0, 204, 204));
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Cedula:");
 
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Nombre:");
 
         jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Apellidos:");
 
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Telefono:");
 
         jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Direccion:");
 
         jLabel6.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Email:");
 
+        btn_cancelar.setBackground(new java.awt.Color(0, 102, 0));
         btn_cancelar.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         btn_cancelar.setForeground(new java.awt.Color(255, 255, 255));
         btn_cancelar.setText("Cancelar");
@@ -68,6 +77,7 @@ public class AgregarPersonas extends javax.swing.JFrame {
             }
         });
 
+        btn_guardar.setBackground(new java.awt.Color(0, 51, 102));
         btn_guardar.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         btn_guardar.setForeground(new java.awt.Color(255, 255, 255));
         btn_guardar.setText("Guardar");
@@ -78,6 +88,7 @@ public class AgregarPersonas extends javax.swing.JFrame {
         });
 
         jLabel7.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Insertar");
 
@@ -187,7 +198,7 @@ public class AgregarPersonas extends javax.swing.JFrame {
         if(cedula.equals("")||nombre.equals("")|| apellidos.equals("")|| telefono.equals("")|| direccion.equals("") || email.equals("")){
             System.out.println("Debes llenar todos los campos.");
         }else{
-            //endpoind insetar
+            
             Map<String, String> datosInsertar = new HashMap<>();
             datosInsertar.put("cedula", cedula);
             datosInsertar.put("nombres", nombre);
@@ -198,8 +209,24 @@ public class AgregarPersonas extends javax.swing.JFrame {
 
             String respuesta = consumo.consumoPOST("https://codetesthub.com/API/Insertar.php", datosInsertar);
             System.out.println("Repuesta: "+respuesta);
+            
+            try {
+                JsonObject estado = JsonParser.parseString(respuesta).getAsJsonObject();
+                boolean status = estado.get("status").getAsBoolean();
+
+                if (status) {
+                     System.out.println("Ingresado con exito.");
+                } else {
+                    System.out.println("No se puede Ingresar.");
+                }
+            } catch (Exception e) {
+                System.out.println("Error al procesar la respuesta del servidor.");
+                e.printStackTrace();
+            }
+            
             ListaPersonas ventana = new ListaPersonas();
             ventana.imprimirPersonas();
+            dispose();
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
 

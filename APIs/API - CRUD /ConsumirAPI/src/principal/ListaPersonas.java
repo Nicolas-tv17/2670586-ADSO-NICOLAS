@@ -83,12 +83,16 @@ public class ListaPersonas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        contenedorPrincipal.setBackground(new java.awt.Color(102, 102, 102));
+        contenedorPrincipal.setBackground(new java.awt.Color(51, 204, 255));
 
+        etq_titulo.setFont(new java.awt.Font("Kokonor", 0, 36)); // NOI18N
         etq_titulo.setForeground(new java.awt.Color(0, 0, 0));
         etq_titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etq_titulo.setText("Lista de personas");
 
+        btn_agregar.setBackground(new java.awt.Color(0, 204, 0));
+        btn_agregar.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        btn_agregar.setForeground(new java.awt.Color(0, 0, 0));
         btn_agregar.setText("Agregar");
         btn_agregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,13 +100,19 @@ public class ListaPersonas extends javax.swing.JFrame {
             }
         });
 
-        btn_actualizar.setText("Actualizar");
+        btn_actualizar.setBackground(new java.awt.Color(255, 255, 0));
+        btn_actualizar.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        btn_actualizar.setForeground(new java.awt.Color(0, 0, 0));
+        btn_actualizar.setText("Editar");
         btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_actualizarActionPerformed(evt);
             }
         });
 
+        btn_eliminar.setBackground(new java.awt.Color(255, 0, 0));
+        btn_eliminar.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        btn_eliminar.setForeground(new java.awt.Color(0, 0, 0));
         btn_eliminar.setText("Eliminar");
         btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,27 +146,27 @@ public class ListaPersonas extends javax.swing.JFrame {
             .addGroup(contenedorPrincipalLayout.createSequentialGroup()
                 .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contenedorPrincipalLayout.createSequentialGroup()
-                        .addGap(243, 243, 243)
-                        .addComponent(btn_agregar)
-                        .addGap(52, 52, 52)
-                        .addComponent(btn_actualizar)
-                        .addGap(41, 41, 41)
-                        .addComponent(btn_eliminar))
-                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
                         .addGap(61, 61, 61)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 727, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 727, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                        .addGap(248, 248, 248)
+                        .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         contenedorPrincipalLayout.setVerticalGroup(
             contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contenedorPrincipalLayout.createSequentialGroup()
-                .addComponent(etq_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(etq_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btn_agregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_actualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
-                .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_agregar)
-                    .addComponent(btn_actualizar)
-                    .addComponent(btn_eliminar))
-                .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(42, Short.MAX_VALUE))
         );
