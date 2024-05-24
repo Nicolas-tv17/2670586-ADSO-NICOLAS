@@ -5,7 +5,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.awt.Color;
 import java.awt.Image;
+import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -14,11 +17,17 @@ import utils.ConsumoAPI;
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     DefaultTableModel modelo;
+    int posicionPokemon = 0;
+    JsonArray listaPokemon;
+    String endpoint;
     
     public VentanaPrincipal() {
         initComponents();
+        endpoint = "https://pokeapi.co/api/v2/pokemon";
         initAltherComponents();
-        imprimirDatos();
+        cargarListaPokemones(endpoint);
+        imprimirDatos(posicionPokemon);
+        
     }
     
     public void initAltherComponents(){
@@ -28,22 +37,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         
         modelo = (DefaultTableModel) datos_tabla.getModel();
         
-        //Tamaño de columnas
         datos_tabla.getColumnModel().getColumn(0).setPreferredWidth(5);
         datos_tabla.getColumnModel().getColumn(1).setPreferredWidth(100);
         datos_tabla.getColumnModel().getColumn(2).setPreferredWidth(200);
         
-        // Ajuste del Orden y Ancho de Columnas
         datos_tabla.getTableHeader().setReorderingAllowed(false);
         datos_tabla.getTableHeader().setResizingAllowed(false);
         
-        // Centrar contenido de columnas
         DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
         centerRender.setHorizontalAlignment(SwingConstants.CENTER);
         datos_tabla.getColumnModel().getColumn(0).setCellRenderer(centerRender);
         datos_tabla.getColumnModel().getColumn(1).setCellRenderer(centerRender);
-              
-        // Alto de las filas
+              2
         datos_tabla.setRowHeight(30); 
         
         btn_atras.setBackground(Color.WHITE);
@@ -58,47 +63,64 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         
     }
     
-    public void imprimirDatos(){
+    public void cargarListaPokemones(String endpoint){
         ConsumoAPI consumo = new ConsumoAPI();
-        String respuesta = consumo.consumoGET("https://pokeapi.co/api/v2/pokemon");
+        String respuesta = consumo.consumoGET(endpoint);
+        JsonObject registros = JsonParser.parseString(respuesta).getAsJsonObject();
+        listaPokemon = registros.get("results").getAsJsonArray();
         
-        try {
-            JsonObject registros = JsonParser.parseString(respuesta).getAsJsonObject();
-            JsonArray resultados = registros.get("results").getAsJsonArray();
-            
-            modelo.setRowCount(0);
-            for (int i = 0; i < resultados.size(); i++) {
-                JsonObject temp = resultados.get(i).getAsJsonObject();
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new javax.swing.BoxLayout(buttonPanel, javax.swing.BoxLayout.Y_AXIS));
 
-                String nombres = temp.get("name").getAsString();
-                String url = temp.get("url").getAsString();
+        for (int i = 0; i < listaPokemon.size(); i++) {
+            JsonObject temp = listaPokemon.get(i).getAsJsonObject();
+            String nombre = temp.get("name").getAsString();
+            JButton button = new JButton(nombre);
+            int pokemonIndex = i;
+            
+            button.addActionListener(e -> imprimirDatos(pokemonIndex));
+            buttonPanel.add(button);
+        }
 
-                String obtenerPokemon = consumo.consumoGET(url);
-                JsonObject respuestaPokemon = JsonParser.parseString(obtenerPokemon).getAsJsonObject();
+        scroll_nombres.setViewportView(buttonPanel);
+    }
+    
+    public void imprimirDatos(int posicion){    
+        JsonObject temp = listaPokemon.get(posicion).getAsJsonObject();
+        
+        String nombres = temp.get("name").getAsString();
+        nombre_pokemon.setText(nombres);
+        
+        String url = temp.get("url").getAsString();
+        
+        ConsumoAPI consumo = new ConsumoAPI();
+        String obtenerPokemon = consumo.consumoGET(url);
+        JsonObject respuestaPokemones = JsonParser.parseString(obtenerPokemon).getAsJsonObject();
+        
+        obtenerImagenPokemon(respuestaPokemones);
+        
+        JsonArray habilidades = respuestaPokemones.get("abilities").getAsJsonArray();
+        modelo.setRowCount(0);
+        for (int i = 0; i < habilidades.size(); i++) {
+            JsonObject habilidad = habilidades.get(i).getAsJsonObject().get("ability").getAsJsonObject();
+            String name = habilidad.get("name").getAsString();
+            String habilidadUrl = habilidad.get("url").getAsString();
 
-                JsonArray habilidades = respuestaPokemon.get("abilities").getAsJsonArray();
-                
-                for (int j = 0; j < 1; j++) {
-                    
-                    JsonObject data = habilidades.get(i).getAsJsonObject();
-                    JsonObject dataOfi = data.get("ability").getAsJsonObject();
-                    String name = dataOfi.get("name").getAsString();
-                    String oficialurl =  dataOfi.get("url").getAsString();
-                    int contador = i+j;
-                    
-                    Object dato[] = new Object[]{contador, name, oficialurl};
-                    modelo.addRow(dato);
-                }
-            }
-            
-            
-        } catch (Exception e) {
-            
+            Object dato[] = new Object[]{i+1, name, habilidadUrl};
+            modelo.addRow(dato);
         }
     }
     
-    public void verificarConexion() {
-        System.out.println("No hay wifi");
+    private void obtenerImagenPokemon(JsonObject pokemon) {
+        try {
+            String imagenUrl = pokemon.get("sprites").getAsJsonObject().get("front_default").getAsString();
+            URL url = new URL(imagenUrl);
+            ImageIcon imageIcon = new ImageIcon(new ImageIcon(url).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+            etq_imagen.setIcon(imageIcon);
+        } catch (Exception ex) {
+            etq_imagen = null;
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -144,6 +166,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         btn_atras.setBorder(null);
         btn_atras.setMaximumSize(new java.awt.Dimension(10, 10));
         btn_atras.setMinimumSize(new java.awt.Dimension(10, 10));
+        btn_atras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_atrasActionPerformed(evt);
+            }
+        });
 
         datos_tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -192,18 +219,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(contenedorPrincipalLayout.createSequentialGroup()
-                                .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
-                                        .addComponent(btn_atras, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(33, 33, 33)
-                                        .addComponent(etq_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btn_siguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jScrollPane1))
+                                .addComponent(jScrollPane1)
                                 .addGap(36, 36, 36))
                             .addGroup(contenedorPrincipalLayout.createSequentialGroup()
-                                .addComponent(nombre_pokemon, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(26, Short.MAX_VALUE))))))
+                                .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                                        .addComponent(btn_atras, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(130, 130, 130)
+                                        .addComponent(etq_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btn_siguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(nombre_pokemon, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(16, Short.MAX_VALUE))))))
         );
         contenedorPrincipalLayout.setVerticalGroup(
             contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,11 +246,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                 .addGap(86, 86, 86)
                                 .addComponent(btn_atras, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(contenedorPrincipalLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(etq_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(contenedorPrincipalLayout.createSequentialGroup()
                                 .addGap(84, 84, 84)
-                                .addComponent(btn_siguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btn_siguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(etq_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
@@ -246,8 +273,29 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_siguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_siguienteActionPerformed
+        ConsumoAPI consumo = new ConsumoAPI();
+        String respuesta = consumo.consumoGET(endpoint);
+        
+        JsonObject registros = JsonParser.parseString(respuesta).getAsJsonObject();
+        String next = registros.get("next").getAsString();
+        endpoint = next;
+        cargarListaPokemones(endpoint);
         
     }//GEN-LAST:event_btn_siguienteActionPerformed
+
+    private void btn_atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_atrasActionPerformed
+        ConsumoAPI consumo = new ConsumoAPI();
+        String respuesta = consumo.consumoGET(endpoint);
+        
+        JsonObject registros = JsonParser.parseString(respuesta).getAsJsonObject();
+        String previous = registros.get("previous").getAsString();
+        if(previous != null){
+            endpoint = previous;
+            cargarListaPokemones(endpoint);
+        }else{
+            btn_atras.setEnabled(false);
+        }
+    }//GEN-LAST:event_btn_atrasActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_atras;
