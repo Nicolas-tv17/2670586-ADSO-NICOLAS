@@ -216,7 +216,7 @@ public class Pokedex extends javax.swing.JFrame {
                 cargarPokemones();
             }
         });
-        
+
         //BOTON FIN
         JButton boton_fin = new JButton(">>");
         boton_fin.addActionListener(new ActionListener() {
