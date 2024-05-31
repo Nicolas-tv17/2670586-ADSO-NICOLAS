@@ -20,6 +20,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     int posicionPokemon = 0;
     JsonArray listaPokemon;
     String endpoint;
+    JsonObject respuestaPokemones;
     
     public VentanaPrincipal() {
         initComponents();
@@ -27,6 +28,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         initAltherComponents();
         cargarListaPokemones(endpoint);
         imprimirDatos(posicionPokemon);
+        
         
     }
     
@@ -48,7 +50,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         centerRender.setHorizontalAlignment(SwingConstants.CENTER);
         datos_tabla.getColumnModel().getColumn(0).setCellRenderer(centerRender);
         datos_tabla.getColumnModel().getColumn(1).setCellRenderer(centerRender);
-              2
+              
         datos_tabla.setRowHeight(30); 
         
         btn_atras.setBackground(Color.WHITE);
@@ -95,7 +97,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         
         ConsumoAPI consumo = new ConsumoAPI();
         String obtenerPokemon = consumo.consumoGET(url);
-        JsonObject respuestaPokemones = JsonParser.parseString(obtenerPokemon).getAsJsonObject();
+        respuestaPokemones = JsonParser.parseString(obtenerPokemon).getAsJsonObject();
         
         obtenerImagenPokemon(respuestaPokemones);
         
@@ -137,6 +139,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         datos_tabla = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
+        btn_next = new javax.swing.JButton();
+        btn_previous = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -192,15 +196,41 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
 
+        btn_next.setText("Siguiente");
+        btn_next.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nextActionPerformed(evt);
+            }
+        });
+
+        btn_previous.setText("Atras");
+        btn_previous.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_previousActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_previous)
+                .addGap(95, 95, 95)
+                .addComponent(btn_next)
+                .addGap(230, 230, 230))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 44, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btn_previous, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                        .addGap(4, 4, 4))
+                    .addComponent(btn_next, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout contenedorPrincipalLayout = new javax.swing.GroupLayout(contenedorPrincipal);
@@ -273,6 +303,14 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_siguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_siguienteActionPerformed
+        
+    }//GEN-LAST:event_btn_siguienteActionPerformed
+
+    private void btn_atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_atrasActionPerformed
+        System.out.println("Imagen Pasada");
+    }//GEN-LAST:event_btn_atrasActionPerformed
+
+    private void btn_nextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nextActionPerformed
         ConsumoAPI consumo = new ConsumoAPI();
         String respuesta = consumo.consumoGET(endpoint);
         
@@ -280,10 +318,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         String next = registros.get("next").getAsString();
         endpoint = next;
         cargarListaPokemones(endpoint);
-        
-    }//GEN-LAST:event_btn_siguienteActionPerformed
+    }//GEN-LAST:event_btn_nextActionPerformed
 
-    private void btn_atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_atrasActionPerformed
+    private void btn_previousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_previousActionPerformed
         ConsumoAPI consumo = new ConsumoAPI();
         String respuesta = consumo.consumoGET(endpoint);
         
@@ -292,13 +329,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         if(previous != null){
             endpoint = previous;
             cargarListaPokemones(endpoint);
+            
         }else{
             btn_atras.setEnabled(false);
         }
-    }//GEN-LAST:event_btn_atrasActionPerformed
+    }//GEN-LAST:event_btn_previousActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_atras;
+    private javax.swing.JButton btn_next;
+    private javax.swing.JButton btn_previous;
     private javax.swing.JButton btn_siguiente;
     private javax.swing.JPanel contenedorPrincipal;
     private javax.swing.JTable datos_tabla;
