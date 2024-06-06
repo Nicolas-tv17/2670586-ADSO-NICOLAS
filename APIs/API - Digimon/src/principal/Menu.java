@@ -3,7 +3,6 @@ package principal;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.awt.Button;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -18,13 +17,11 @@ public class Menu extends javax.swing.JFrame {
     ConsumoAPI consumo;
     int pagina;
     String endpoint;
-    
     int [] listaNumeros = new int[]{1,2,3,4,5};
     
     public Menu() {
         this.consumo = new ConsumoAPI();
-        this.pagina = pagina;
-        this.endpoint = "https://digi-api.com/api/v1/digimon?page="+pagina+"";
+        this.pagina = 0;
         this.consumo.consumoGET(endpoint);
         
         initComponents();
@@ -48,6 +45,7 @@ public class Menu extends javax.swing.JFrame {
     
     public void imprimirDigimon(){
         panelDigimones.removeAll();
+        this.endpoint = "https://digi-api.com/api/v1/digimon?page="+pagina+"";
         String resultado = consumo.consumoGET(endpoint);
         JsonObject digimon = JsonParser.parseString(resultado).getAsJsonObject();
         JsonArray registros = digimon.get("content").getAsJsonArray();
@@ -73,7 +71,7 @@ public class Menu extends javax.swing.JFrame {
         boton_inicio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                pagina = 1;
+                pagina = 0;
                 imprimirDigimon();
                 imprimirPaginador();
             }
@@ -83,9 +81,15 @@ public class Menu extends javax.swing.JFrame {
         boton_atras.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                pagina--;
-                imprimirDigimon();
-                imprimirPaginador();
+                int actual = pagina;
+                if(actual != 0){
+                    pagina--;
+                    imprimirDigimon();
+                    imprimirPaginador();
+                }else{
+                    System.out.println("Posicion Invalida");
+                }
+                
             }
         });
         panelPaginador.add(boton_inicio);
@@ -109,7 +113,6 @@ public class Menu extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 pagina++;
-                System.out.println("---"+pagina);
                 imprimirDigimon();
                 imprimirPaginador();
             }

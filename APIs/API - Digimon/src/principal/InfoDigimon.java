@@ -3,12 +3,9 @@ package principal;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import utils.ConsumoAPI;
 
@@ -55,7 +52,6 @@ public class InfoDigimon extends javax.swing.JFrame {
         }
         
         JsonArray nivel = nuevo.get("levels").getAsJsonArray();
-        campo_level.setText("");
         for (int i = 0; i < nivel.size(); i++) {
             JsonObject temp = nivel.get(i).getAsJsonObject();
             String level = temp.get("level").getAsString();
@@ -63,7 +59,6 @@ public class InfoDigimon extends javax.swing.JFrame {
         }
         
         JsonArray atributos = nuevo.get("attributes").getAsJsonArray();
-        campo_attribute.setText("");
         for (int i = 0; i < atributos.size(); i++) {
             JsonObject temp = atributos.get(i).getAsJsonObject();
             String attribute = temp.get("attribute").getAsString();
@@ -71,13 +66,24 @@ public class InfoDigimon extends javax.swing.JFrame {
         }
         
         JsonArray tipo = nuevo.get("types").getAsJsonArray();
-        campo_type.setText("");
         for (int i = 0; i < tipo.size(); i++) {
             JsonObject temp = tipo.get(i).getAsJsonObject();
             String type = temp.get("type").getAsString();
             campo_type.setText(type);
         }
         
+        JsonArray campo = nuevo.get("fields").getAsJsonArray();
+        for(int i = 0; i < campo.size(); i++){
+            JsonObject temp = campo.get(i).getAsJsonObject();
+            String imagen = temp.get("image").getAsString();
+            try {
+                URL url = new URL(imagen);
+                Fiels campoImagen = new Fiels(url);
+                campo_fields.add(campoImagen);
+            } catch (MalformedURLException ex) {
+                System.out.println("Error en el Try-Catch");
+            }
+        }
 
     }
 
@@ -95,7 +101,7 @@ public class InfoDigimon extends javax.swing.JFrame {
         campo_level = new javax.swing.JLabel();
         campo_attribute = new javax.swing.JLabel();
         campo_type = new javax.swing.JLabel();
-        campo_field = new javax.swing.JLabel();
+        campo_fields = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -137,15 +143,13 @@ public class InfoDigimon extends javax.swing.JFrame {
         campo_type.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         campo_type.setText("...");
 
-        campo_field.setForeground(new java.awt.Color(0, 0, 0));
-        campo_field.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        campo_field.setText("...");
+        campo_fields.setLayout(new javax.swing.BoxLayout(campo_fields, javax.swing.BoxLayout.LINE_AXIS));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(etq_id, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+            .addComponent(etq_id, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(etq_nombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(51, 51, 51)
@@ -158,11 +162,8 @@ public class InfoDigimon extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
+                        .addGap(112, 112, 112)
                         .addComponent(etq_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(186, 186, 186)
-                        .addComponent(Field))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addComponent(campo_level, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -171,9 +172,13 @@ public class InfoDigimon extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addComponent(campo_type, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(160, 160, 160)
-                        .addComponent(campo_field, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addGap(186, 186, 186)
+                        .addComponent(Field)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(campo_fields, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,8 +202,8 @@ public class InfoDigimon extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addComponent(Field)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(campo_field)
-                .addGap(0, 36, Short.MAX_VALUE))
+                .addComponent(campo_fields, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -211,7 +216,7 @@ public class InfoDigimon extends javax.swing.JFrame {
     private javax.swing.JLabel Type;
     private javax.swing.JLabel attribute;
     private javax.swing.JLabel campo_attribute;
-    private javax.swing.JLabel campo_field;
+    private javax.swing.JPanel campo_fields;
     private javax.swing.JLabel campo_level;
     private javax.swing.JLabel campo_type;
     private javax.swing.JLabel etq_id;
