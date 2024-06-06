@@ -49,8 +49,33 @@ public class InfoDigimon extends javax.swing.JFrame {
                 icono_listar = icono_listar.getScaledInstance(160, 160, Image.SCALE_SMOOTH);
                 etq_imagen.setIcon(new ImageIcon(icono_listar));
             } catch (MalformedURLException ex) {
-                
+                System.out.println("Error en el Try-Catch");
             }
+            
+        }
+        
+        JsonArray nivel = nuevo.get("levels").getAsJsonArray();
+        campo_level.setText("");
+        for (int i = 0; i < nivel.size(); i++) {
+            JsonObject temp = nivel.get(i).getAsJsonObject();
+            String level = temp.get("level").getAsString();
+            campo_level.setText(level);
+        }
+        
+        JsonArray atributos = nuevo.get("attributes").getAsJsonArray();
+        campo_attribute.setText("");
+        for (int i = 0; i < atributos.size(); i++) {
+            JsonObject temp = atributos.get(i).getAsJsonObject();
+            String attribute = temp.get("attribute").getAsString();
+            campo_attribute.setText(attribute);
+        }
+        
+        JsonArray tipo = nuevo.get("types").getAsJsonArray();
+        campo_type.setText("");
+        for (int i = 0; i < tipo.size(); i++) {
+            JsonObject temp = tipo.get(i).getAsJsonObject();
+            String type = temp.get("type").getAsString();
+            campo_type.setText(type);
         }
         
 
@@ -69,8 +94,8 @@ public class InfoDigimon extends javax.swing.JFrame {
         Field = new javax.swing.JLabel();
         campo_level = new javax.swing.JLabel();
         campo_attribute = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        campo_type = new javax.swing.JLabel();
+        campo_field = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -108,13 +133,13 @@ public class InfoDigimon extends javax.swing.JFrame {
         campo_attribute.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         campo_attribute.setText("...");
 
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("...");
+        campo_type.setForeground(new java.awt.Color(0, 0, 0));
+        campo_type.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        campo_type.setText("...");
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("...");
+        campo_field.setForeground(new java.awt.Color(0, 0, 0));
+        campo_field.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        campo_field.setText("...");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -143,12 +168,12 @@ public class InfoDigimon extends javax.swing.JFrame {
                         .addComponent(campo_level, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(46, 46, 46)
                         .addComponent(campo_attribute, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28)
+                        .addComponent(campo_type, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(160, 160, 160)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(campo_field, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,11 +193,11 @@ public class InfoDigimon extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campo_level)
                     .addComponent(campo_attribute)
-                    .addComponent(jLabel1))
+                    .addComponent(campo_type))
                 .addGap(36, 36, 36)
                 .addComponent(Field)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addComponent(campo_field)
                 .addGap(0, 36, Short.MAX_VALUE))
         );
 
@@ -186,11 +211,11 @@ public class InfoDigimon extends javax.swing.JFrame {
     private javax.swing.JLabel Type;
     private javax.swing.JLabel attribute;
     private javax.swing.JLabel campo_attribute;
+    private javax.swing.JLabel campo_field;
     private javax.swing.JLabel campo_level;
+    private javax.swing.JLabel campo_type;
     private javax.swing.JLabel etq_id;
     private javax.swing.JLabel etq_imagen;
     private javax.swing.JLabel etq_nombre;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

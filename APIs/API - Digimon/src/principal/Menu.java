@@ -3,7 +3,7 @@ package principal;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.awt.Color;
+import java.awt.Button;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -11,13 +11,22 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import utils.ConsumoAPI;
 
 public class Menu extends javax.swing.JFrame {
 
-    String respuesta;
+    ConsumoAPI consumo;
+    int pagina;
+    String endpoint;
     
-    public Menu(String respuesta) {
-        this.respuesta = respuesta;
+    int [] listaNumeros = new int[]{1,2,3,4,5};
+    
+    public Menu() {
+        this.consumo = new ConsumoAPI();
+        this.pagina = pagina;
+        this.endpoint = "https://digi-api.com/api/v1/digimon?page="+pagina+"";
+        this.consumo.consumoGET(endpoint);
+        
         initComponents();
         initAltherComponents();
         imprimirDigimon();
@@ -30,7 +39,6 @@ public class Menu extends javax.swing.JFrame {
         setTitle("DIGIMON");
         setResizable(false);
         
-        
         etq_titulo.removeAll();
         Image icono_listar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/Digimon_Logo.png"));
         icono_listar = icono_listar.getScaledInstance(120, 60, Image.SCALE_SMOOTH);
@@ -39,11 +47,14 @@ public class Menu extends javax.swing.JFrame {
     }
     
     public void imprimirDigimon(){
-        JsonObject digimon = JsonParser.parseString(respuesta).getAsJsonObject();
+        panelDigimones.removeAll();
+        String resultado = consumo.consumoGET(endpoint);
+        JsonObject digimon = JsonParser.parseString(resultado).getAsJsonObject();
         JsonArray registros = digimon.get("content").getAsJsonArray();
-        System.out.println(registros);
+        
         panelDigimones.setLayout(new GridLayout(2,3));
         for (int i = 0; i < registros.size(); i++) {
+            
             JsonObject temp = registros.get(i).getAsJsonObject();
             String nombres = temp.get("name").getAsString();
             String imagen = temp.get("image").getAsString();
@@ -62,33 +73,45 @@ public class Menu extends javax.swing.JFrame {
         boton_inicio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Nuevo");
+                pagina = 1;
+                imprimirDigimon();
+                imprimirPaginador();
             }
         });
-        
-        panelPaginador.add(boton_inicio);
         
         JButton boton_atras = new JButton("<");
         boton_atras.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                pagina--;
+                imprimirDigimon();
+                imprimirPaginador();
             }
         });
+        panelPaginador.add(boton_inicio);
         panelPaginador.add(boton_atras);
         
+        JButton [] boton = new JButton[listaNumeros.length];
+        for (int i = 0; i < boton.length; i++) {
+            JButton btn = new JButton(String.valueOf(listaNumeros[i]));
+            boton[i] = btn;
+            
+            panelPaginador.add(btn);
+            
+        }
         
         
         
         
         
-        
-        //BOTON SIGUIENTE
         JButton boton_siguiente = new JButton(">");
         boton_siguiente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                pagina++;
+                System.out.println("---"+pagina);
+                imprimirDigimon();
+                imprimirPaginador();
             }
         });
 
@@ -96,17 +119,17 @@ public class Menu extends javax.swing.JFrame {
         boton_fin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
 
- 
             }
         });
         panelPaginador.add(boton_siguiente);
         panelPaginador.add(boton_fin);
      
         
-        panelPaginador.add(Box.createHorizontalGlue());
-        panelPaginador.repaint();
-        panelPaginador.revalidate();
+        add(Box.createHorizontalGlue());
+        repaint();
+        revalidate();
     }
 
     @SuppressWarnings("unchecked")
@@ -127,7 +150,7 @@ public class Menu extends javax.swing.JFrame {
         panelDigimones.setLayout(panelDigimonesLayout);
         panelDigimonesLayout.setHorizontalGroup(
             panelDigimonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 712, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         panelDigimonesLayout.setVerticalGroup(
             panelDigimonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,13 +166,13 @@ public class Menu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(etq_titulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(panelPaginador, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 14, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelDigimones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(panelPaginador, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addComponent(panelDigimones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
