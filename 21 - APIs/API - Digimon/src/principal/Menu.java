@@ -70,13 +70,12 @@ public class Menu extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (int i = 0; i < listaNumeros.length; i++) {
-                    if (listaNumeros[0]!=0){
-                        listaNumeros[i] = listaNumeros[i]-1;
+                    do {                        
+                        listaNumeros[i] = listaNumeros[i]-5;
                         pagina = listaNumeros[i]+2;
                         imprimirDigimon();
                         imprimirPaginador();
-                    }
-                    
+                    } while (pagina <= 0);
                 }
             }
         });
@@ -87,9 +86,13 @@ public class Menu extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 int actual = pagina;
                 if(actual != 0){
-                    pagina--;
-                    imprimirDigimon();
-                    imprimirPaginador();
+                    if(pagina <= 2){
+                        for (int i = 0; i < listaNumeros.length; i++) {
+                            listaNumeros[i] = listaNumeros[i]-1;
+                            imprimirDigimon();
+                            imprimirPaginador();
+                        }
+                    }
                 }else{
                     System.out.println("Posicion Invalida");
                 }
@@ -144,7 +147,7 @@ public class Menu extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (int i = 0; i < listaNumeros.length; i++) {
-                    listaNumeros[i] = listaNumeros[i]+2;
+                    listaNumeros[i] = listaNumeros[i]+5;
                     pagina = listaNumeros[i]-2;
                     imprimirDigimon();
                     imprimirPaginador();

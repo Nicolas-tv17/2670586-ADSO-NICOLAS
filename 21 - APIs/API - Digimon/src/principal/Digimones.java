@@ -34,7 +34,7 @@ public class Digimones extends javax.swing.JPanel {
             Logger.getLogger(Digimones.class.getName()).log(Level.SEVERE, null, ex);
         }
         etq_nombre.setText(nombres);
-        contenedorinfo.setBorder(BorderFactory.createLineBorder(Color.white,2));
+        contenedorinfo.setBorder(BorderFactory.createLineBorder(Color.white,3));
     }
 
 
@@ -108,11 +108,11 @@ public class Digimones extends javax.swing.JPanel {
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        contenedorinfo.setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
+        contenedorinfo.setBorder(BorderFactory.createLineBorder(Color.BLUE,3));
     }//GEN-LAST:event_formMouseEntered
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
-        contenedorinfo.setBorder(BorderFactory.createLineBorder(Color.white,2));
+        contenedorinfo.setBorder(BorderFactory.createLineBorder(Color.white,3));
     }//GEN-LAST:event_formMouseExited
 
 
