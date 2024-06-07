@@ -17,7 +17,7 @@ public class Menu extends javax.swing.JFrame {
     ConsumoAPI consumo;
     int pagina;
     String endpoint;
-    int [] listaNumeros = new int[]{1,2,3,4,5};
+    int [] listaNumeros = new int[]{0,1,2,3,4};
     
     public Menu() {
         this.consumo = new ConsumoAPI();
@@ -54,8 +54,6 @@ public class Menu extends javax.swing.JFrame {
         for (int i = 0; i < registros.size(); i++) {
             
             JsonObject temp = registros.get(i).getAsJsonObject();
-            String nombres = temp.get("name").getAsString();
-            String imagen = temp.get("image").getAsString();
             Digimones panel = new Digimones(temp);
             panelDigimones.add(panel);
         }
@@ -71,9 +69,15 @@ public class Menu extends javax.swing.JFrame {
         boton_inicio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                pagina = 0;
-                imprimirDigimon();
-                imprimirPaginador();
+                for (int i = 0; i < listaNumeros.length; i++) {
+                    if (listaNumeros[0]!=0){
+                        listaNumeros[i] = listaNumeros[i]-1;
+                        pagina = listaNumeros[i]+2;
+                        imprimirDigimon();
+                        imprimirPaginador();
+                    }
+                    
+                }
             }
         });
         
@@ -102,6 +106,15 @@ public class Menu extends javax.swing.JFrame {
             
             panelPaginador.add(btn);
             
+            final int iterador = listaNumeros[i];
+            btn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    pagina = iterador;
+                    imprimirDigimon();
+                    imprimirPaginador();
+                }
+            });
         }
         
         
@@ -115,6 +128,14 @@ public class Menu extends javax.swing.JFrame {
                 pagina++;
                 imprimirDigimon();
                 imprimirPaginador();
+                
+                if(pagina >= 2){
+                    for (int i = 0; i < listaNumeros.length; i++) {
+                        listaNumeros[i] = listaNumeros[i]+1;
+                        imprimirDigimon();
+                        imprimirPaginador();
+                    }
+                }
             }
         });
 
@@ -122,7 +143,12 @@ public class Menu extends javax.swing.JFrame {
         boton_fin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                for (int i = 0; i < listaNumeros.length; i++) {
+                    listaNumeros[i] = listaNumeros[i]+2;
+                    pagina = listaNumeros[i]-2;
+                    imprimirDigimon();
+                    imprimirPaginador();
+                }
 
             }
         });
@@ -130,7 +156,7 @@ public class Menu extends javax.swing.JFrame {
         panelPaginador.add(boton_fin);
      
         
-        add(Box.createHorizontalGlue());
+        panelPaginador.add(Box.createHorizontalGlue());
         repaint();
         revalidate();
     }

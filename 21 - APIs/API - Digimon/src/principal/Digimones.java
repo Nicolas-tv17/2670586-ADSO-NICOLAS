@@ -27,14 +27,14 @@ public class Digimones extends javax.swing.JPanel {
         try {
             URL url = new URL(imagen);
             etq_imagen.setText("");
-            Image icono_listar = getToolkit().createImage(url);
-            icono_listar = icono_listar.getScaledInstance(170, 170, Image.SCALE_SMOOTH);
-            etq_imagen.setIcon(new ImageIcon(icono_listar));
+            Image imagenDigimon = getToolkit().createImage(url);
+            imagenDigimon = imagenDigimon.getScaledInstance(170, 170, Image.SCALE_SMOOTH);
+            etq_imagen.setIcon(new ImageIcon(imagenDigimon));
         } catch (MalformedURLException ex) {
             Logger.getLogger(Digimones.class.getName()).log(Level.SEVERE, null, ex);
         }
         etq_nombre.setText(nombres);
-        contenedorinfo.setBorder(BorderFactory.createLineBorder(Color.white,5));
+        contenedorinfo.setBorder(BorderFactory.createLineBorder(Color.white,2));
     }
 
 

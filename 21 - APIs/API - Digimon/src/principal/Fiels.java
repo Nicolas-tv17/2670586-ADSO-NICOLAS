@@ -15,7 +15,6 @@ public class Fiels extends javax.swing.JPanel {
     }
     
     public void initAltherComponents(){
-        System.out.println(""+url);
         etq_imagen.setText("");
         Image icono_listar = getToolkit().createImage(url);
         icono_listar = icono_listar.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
