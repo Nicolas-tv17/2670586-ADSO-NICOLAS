@@ -1,0 +1,47 @@
+a{
+    color: rgb(255, 128, 0);
+    text-decoration: none;
+}
+
+h4{
+    font-size: 1.5em;
+    font-weight: bold;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.titulo{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2.5em;
+    text-align: center;
+}
+
+.detalleActualizar{
+    /* border: red 1px solid; */
+    text-align: start;
+    padding-top: 5px;
+    padding-left: 10%;
+    padding-bottom: 5px;
+}
+
+.input-list li {
+    margin:0px;
+    padding: 0px;
+}
+
+.cuadradoJSON{
+    padding-left: 4%;
+    margin-right: 10%;
+    margin-bottom: 4%;
+    border: rgb(0, 0, 0) 2px solid;
+    background-color: rgb(221, 221, 221);
+}
+.paneles{
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 5px;
+}
+
+/* .paneles div{
+    box-shadow: 10px 5px 5px black;
+} */
