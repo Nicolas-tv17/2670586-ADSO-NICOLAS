@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilos.css">
+    <script type="text/javascript" src="js/funciones.js"></script>
+    <title>Servicios</title>
+</head>
+<body>
+    <div>
+        <h1>Servicios</h1>
+        <div class="contenedorBotonAgregar">
+            <button class="botonAgregar" onclick="insertarServicio()">Agregar</button>
+            
+        </div>
+        <div id="formularioPersona" style="display: none;">
+            <input id="labor" placeholder="labor">
+            <input id="descripcion" placeholder="descripcion">
+            <input id="valor" placeholder="valor">
+            <input id="usuario" placeholder="usuario">
+
+            <div class="contenedorBotones">
+                <button onclick="cancelar()" class="calcelar">Calcelar</button>
+                <button id="guardar" onclick="guardarServicio()" class="guardar"> Guardar</button>
+            </div>
+        </div>
+        <table id="tabladatos">
+            <thead>
+                <tr>
+                    <th>id_servicio</th>
+                    <th>Labor</th>
+                    <th>Descripcion</th>
+                    <th>Valor</th>
+                    <th>Usuario</th>
+                    
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="datos">
+                 
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

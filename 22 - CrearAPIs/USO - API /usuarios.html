@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilos.css">
+    <title>Usuarios</title>
+</head>
+<body>
+    <div>
+        <h1>USUARIOS</h1>
+        <div class="contenedorBotonAgregar">
+            <button class="botonAgregar" onclick="insertarServicio()">Agregar</button>
+            
+        </div>
+        <div id="formularioPersona" style="display: none;">
+            <input id="documento" placeholder="Documento">
+            <input id="nombre" placeholder="Nombre">
+            <input id="apellido" placeholder="Apellido">
+            <input id="correo" placeholder="Correo">
+            <input id="telefono" placeholder="Telefono">
+            <input id="direccion" placeholder="Direccion">
+
+            <div class="contenedorBotones">
+                <button onclick="cancelar()" class="calcelar">Calcelar</button>
+                <button id="guardar" onclick="guardarServicio()" class="guardar"> Guardar</button>
+            </div>
+        </div>
+        <table id="tabladatos">
+            <thead>
+                <tr>
+                    <th>Documento</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo</th>
+                    <th>Telefono</th>
+                    <th>Direccion</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="datos">
+                 
+            </tbody>
+        </table>
+    </div>
+    <script src="js/funcionesUsuarios.js"></script>
+</body>
+</html>
